@@ -4,7 +4,7 @@ import BookSearch from './BookSearch';
 import BookList from './BookList';
 import ClientHTTPRequest from './ClientHTTPRequest';
 import {Link} from 'react-router-dom';
-import { Layout, Menu, Breadcrumb, Icon, Row } from 'antd';
+import { Layout, Menu, Icon, Row } from 'antd';
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -14,7 +14,7 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		ClientHTTPRequest.index(1, 10, (books) => {
+		ClientHTTPRequest.index(1, 18, (books) => {
 			this.setState({bookList: JSON.parse(books).books})
 		})
 	}
@@ -85,11 +85,7 @@ class App extends Component {
 		            </SubMenu>
 		          </Menu>
 		        </Sider>
-		        <Content style={{ minHeight: 280 }}>
-		        	<Row>
-			        	<Icon type="bars" />
-								<Icon type="appstore-o" />
-		          </Row>
+		        <Content>
 		          <Row>
 			          <BookList 
 									books={bookList}

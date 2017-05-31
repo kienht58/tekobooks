@@ -1,90 +1,71 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import ClientHTTPRequest from './ClientHTTPRequest';
+import { Row, Col, Icon, Button, Input, AutoComplete, Rate } from 'antd';
+const Option = AutoComplete.Option;
 
 class BookSearch extends Component {
 	state = {
 		books: [],
-		showRemoveIcon: false,
-		searchValue: '',
-	};
-
-	handleSearchChange = (e) => {
-		const value = e.target.value;
-
-		this.setState({
-			searchValue: value,
-		});
-
-		if(value === '') {
-			this.setState({
-				books: [],
-				showRemoveIcon: false,
-			});
-		} else {
-			this.setState({
-				showRemoveIcon: 'true',
-			});
-		}
-
-		ClientHTTPRequest.search(value, (books) => {
-			this.setState({
-				books: [JSON.parse(books)]
-			})
-		})
 	}
 
-	handleSearchCancel = () => {
-		this.setState({
-			books: [],
-			showRemoveIcon: false,
-			searchValue: '',
-		});
+	renderOption(item) {
+		return (
+			<Option
+				key={item.id}
+			>
+				<Row>
+					<Col xs={6}>
+						<img src={item.cover} />
+					</Col>
+					<Col xs={18}>
+						<p className="global-search-item-title">{item.name}</p>
+						<p className="global-search-item-author">{item.author}</p>
+						<p className='global-search-item-review'>6969 review</p>
+						<Rate />
+					</Col>
+				</Row>
+			</Option>
+		)
+	}
+
+	handleSearch = (value) => {
+		if(value == '') {
+			this.setState({
+				books: []
+			})
+		} else {
+			ClientHTTPRequest.search(value, (books) => {
+				this.setState({
+					books: [JSON.parse(books)]
+				})
+			})
+		}
 	}
 
 	render() {
-		const {showRemoveIcon, books} = this.state;
-		const removeIconStyle = showRemoveIcon ? {} : {visibility: 'hidden'};
-
-		const bookRows = books.map((book, idx) => (
-			<tr
-				key={idx}
-				onClick={() => this.props.onBookClick(book)}
-			>
-				<td>{book.name}</td>
-			</tr>
-		))
-
+		const {bookList} = this.state;
 		return (
-			<div id='food-search'>
-        <table className='ui selectable structured large table'>
-          <thead>
-            <tr>
-              <th colSpan='5'>
-                <div className='ui fluid search'>
-                  <div className='ui icon input'>
-                    <input
-                      className='prompt'
-                      type='text'
-                      placeholder='Search books...'
-                      value={this.state.searchValue}
-                      onChange={this.handleSearchChange}
-                    />
-                    <i className='search icon' />
-                  </div>
-                  <i
-                    className='remove icon'
-                    onClick={this.handleSearchCancel}
-                    style={removeIconStyle}
-                  />
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookRows}
-          </tbody>
-        </table>
-      </div>
+			<div className="global-search-wrapper">
+				<p><strong>SEARCH FOR BOOKS</strong></p>
+				<AutoComplete
+					className="global-search"
+					size="large"
+					style={{width: '100%'}}
+					dataSource={this.state.books.map(this.renderOption)}
+					onSearch={this.handleSearch}
+					placeholder="search here"
+					optionLabelProp="text"
+				>
+					<Input
+						suffix={(
+							<Button className="search-btn" size="large" type="default">
+								<Icon type="search" />
+							</Button>
+						)}
+					/>
+				</AutoComplete>
+			</div>
 		)
 	}
 }
