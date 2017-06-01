@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ClientHTTPRequest from './ClientHTTPRequest';
+import {Link} from 'react-router-dom';
 import { Row, Col, Icon, Button, Input, AutoComplete, Rate } from 'antd';
 const Option = AutoComplete.Option;
 
@@ -13,17 +14,19 @@ class BookSearch extends Component {
 			<Option
 				key={item.id}
 			>
-				<Row>
-					<Col xs={6}>
-						<img src={item.cover} alt="description" />
-					</Col>
-					<Col xs={18}>
-						<p className="global-search-item-title">{item.name}</p>
-						<p className="global-search-item-author">{item.author}</p>
-						<p className='global-search-item-review'>6969 review</p>
-						<Rate />
-					</Col>
-				</Row>
+				<Link to={'/book/' + item.id}>
+					<Row>
+						<Col xs={6}>
+							<img src={item.cover} alt="description" />
+						</Col>
+						<Col xs={18}>
+							<p className="global-search-item-title">{item.name}</p>
+							<p className="global-search-item-author">{item.author}</p>
+							<p className='global-search-item-review'>6969 review</p>
+							<Rate />
+						</Col>
+					</Row>
+				</Link>
 			</Option>
 		)
 	}

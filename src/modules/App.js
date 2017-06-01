@@ -15,7 +15,7 @@ class App extends Component {
 	}
 
 	componentWillMount() {
-		ClientHTTPRequest.index(1, 8, (books) => {
+		ClientHTTPRequest.index(1, 18, (books) => {
 			this.setState({bookList: JSON.parse(books).books})
 		})
 	}
@@ -41,7 +41,7 @@ class App extends Component {
 		        defaultSelectedKeys={['2']}
 		        style={{ lineHeight: '64px' }}
 		      >
-		        <Menu.Item key="1" className="logo">TEKOBOOKS</Menu.Item>
+		        <Menu.Item key="1" className="logo"><Link to="/">TEKOBOOKS</Link></Menu.Item>
 		        <Menu.Item key="2"><Link to="/">Book list</Link></Menu.Item>
 		        <Menu.Item key="3"><Link to="/create">Add new Book</Link></Menu.Item>
 		        <Menu.Item key="4" style={{float: 'right'}}>Login</Menu.Item>

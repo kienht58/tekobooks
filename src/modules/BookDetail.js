@@ -22,7 +22,7 @@ class BookDetail extends Component {
 					<Col md={16} className="book-content">
 						<h2>{book.name}</h2>
 						<Row className="author-section" type="flex" align="middle">
-							<Col md={4}><img src={book.cover} className='author-img' alt="description" /></Col>
+							<Col md={4}><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJVlidUUYO32z2goS7-5nxGzzM8Z-bjZuskeqbHkgHuE9mqRna3XaUFQA" className='author-img' alt="description" /></Col>
 							<Col md={6}><span><strong>{book.author}</strong></span></Col>
 						</Row>
 						<Row className="rating-section" type="flex" align='middle'>

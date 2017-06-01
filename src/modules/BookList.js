@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import { Layout, Menu, Icon, Row, Rate } from 'antd';
-const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 class BookList extends Component {
@@ -43,8 +42,8 @@ class BookList extends Component {
 
 		return(
 			<Layout>
-			<Sider width={200}>
-		        	<p>CATEGORIES</p>
+			<Sider style={{width: '20%', padding: '57px 0'}}>
+		        	<p><strong>CATEGORIES</strong></p>
 		          <hr />
 		          <Menu
 		            mode="inline"
@@ -52,27 +51,28 @@ class BookList extends Component {
 		            defaultOpenKeys={['sub1']}
 		            style={{ height: '100%', border: 'none' }}
 		          >
-		            <SubMenu key="sub1" title={<span><Icon type="user" />subnav 1</span>}>
-		              <Menu.Item key="1">option1</Menu.Item>
-		              <Menu.Item key="2">option2</Menu.Item>
-		              <Menu.Item key="3">option3</Menu.Item>
-		              <Menu.Item key="4">option4</Menu.Item>
-		            </SubMenu>
-		            <SubMenu key="sub2" title={<span><Icon type="laptop" />subnav 2</span>}>
-		              <Menu.Item key="5">option5</Menu.Item>
-		              <Menu.Item key="6">option6</Menu.Item>
-		              <Menu.Item key="7">option7</Menu.Item>
-		              <Menu.Item key="8">option8</Menu.Item>
-		            </SubMenu>
-		            <SubMenu key="sub3" title={<span><Icon type="notification" />subnav 3</span>}>
-		              <Menu.Item key="9">option9</Menu.Item>
-		              <Menu.Item key="10">option10</Menu.Item>
-		              <Menu.Item key="11">option11</Menu.Item>
-		              <Menu.Item key="12">option12</Menu.Item>
-		            </SubMenu>
+		            <Menu.Item key="1">Art</Menu.Item>
+		            <Menu.Item key="2">Biography</Menu.Item>
+		            <Menu.Item key="3">Business</Menu.Item>
+		            <Menu.Item key="4">Childrens</Menu.Item>
+		            <Menu.Item key="5">Christian</Menu.Item>
+		            <Menu.Item key="6">Classics</Menu.Item>
+		            <Menu.Item key="7">Comedy</Menu.Item>
+		            <Menu.Item key="8">Comics</Menu.Item>
+		            <Menu.Item key="9">Cookbooks</Menu.Item>
+		            <Menu.Item key="10">Crime</Menu.Item>
+		            <Menu.Item key="11">Ebooks</Menu.Item>
+		            <Menu.Item key="12">Fantasy</Menu.Item>
+		            <Menu.Item key="13">Fiction</Menu.Item>
+		            <Menu.Item key="14">Graphic Novel</Menu.Item>
+		            <Menu.Item key="15">Historical Fiction</Menu.Item>
+		            <Menu.Item key="16">History</Menu.Item>
+		            <Menu.Item key="17">Horror</Menu.Item>
+		            <Menu.Item key="18">Manga</Menu.Item>
+		            <Menu.Item key="19">Memoir</Menu.Item>
 		          </Menu>
 		        </Sider>
-		        <Content>
+		        <Content style={{padding: '0 50px'}}>
 		          <Row className="list-content">
 							    <div className="well well-sm filter-choice">
 							        <div className="btn-group">

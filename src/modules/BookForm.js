@@ -1,170 +1,228 @@
 import React, {Component} from 'react';
-import SingleInput from './formelems/SingleInput';
-import TextArea from './formelems/TextArea';
 import ClientHTTPRequest from './ClientHTTPRequest';
+import { Form, Input, InputNumber, Button } from 'antd';
+const FormItem = Form.Item;
 
-class BookForm extends Component {
+class NormalForm extends Component {
 
-	state = {
-		name: '',
-		isbn: '',
-		cover: '',
-		author: '',
-		pages: 0,
-		description: '',
-	}
-
-	componentWillMount() {
+	componentDidMount() {
 		if(this.props.match.params.idx) {
 			ClientHTTPRequest.get(this.props.match.params.idx, (book) => {
 				book = JSON.parse(book);
-				this.setState({
-					name: book.name,
-					isbn: book.isbn,
-					cover: book.cover,
-					author: book.author,
-					pages: book.pages,
-					description: book.description,
+				this.props.form.setFields({
+					name: {
+						value: book.name,
+						errors: [new Error('could not retrieve name')]
+					},
+					isbn: {
+						value: book.isbn,
+						errors: [new Error('could not retrieve isbn')]
+					},
+					author: {
+						value: book.author,
+						errors: [new Error('could not retrieve isbn')]
+					},
+					pages: {
+						value: book.pages,
+						errors: [new Error('could not retrieve isbn')]
+					},
+					description: {
+						value: book.description,
+						errors: [new Error('could not retrieve isbn')]
+					},
 				})
 			})
 		}
 	}
 
-	handleFormSubmit(e) {
-		e.preventDefault();
-
-		const formPayload = {
-			name: this.state.name,
-			isbn: this.state.isbn,
-			cover: this.state.cover,
-			author: this.state.author,
-			pages: this.state.pages,
-			'description': this.state.description,
-		}
-
-		if(this.props.match.params.idx) {
-			ClientHTTPRequest.post(this.props.match.params.idx, formPayload, (res) => {
-				//do post stuff
-				console.log(res);
-			})
+	checkISBN = (rule, value, callback) => {
+		if(!value || !(value.length === 10 || value.length === 13)) {
+			callback('ISBN must have 10 or 13 number!');
 		} else {
-			ClientHTTPRequest.post(formPayload, (res) => {
-				console.log(res);
-			})
+			callback();
 		}
-		
-
-		this.handleClearForm(e);
 	}
 
-	handleClearForm(e) {
+	checkPages = (rule, value, callback) => {
+		if(value && value > 0) {
+			callback();
+		} else {
+			callback('Page numbers must not be negative!');
+		}
+	}
+
+	checkYear = (rule, value, callback) => {
+		if(value && (value > 2017 || value < 0)) {
+			callback('Year must be in range of 0 -> 2017');
+		} else {
+			callback();
+		}
+	}
+
+	handleSubmit = (e) => {
 		e.preventDefault();
-
-		this.setState({
-			name: '',
-			isbn: '',
-			cover: '',
-			author: '',
-			pages: 0,
-			description: '',
-		})
-	}
-
-	handleNameChange(e) {
-		this.setState({
-			name: e.target.value
-		})
-	}
-
-	handleISBNChange(e) {
-		this.setState({
-			isbn: e.target.value
-		})
-	}
-
-	handleCoverChange(e) {
-		this.setState({
-			cover: e.target.value
-		})
-	}
-
-	handleAuthorChange(e) {
-		this.setState({
-			author: e.target.value
-		})
-	}
-
-	handlePagesChange(e) {
-		this.setState({
-			pages: e.target.value
-		})
-	}
-
-	handleDescriptionChange(e) {
-		this.setState({
-			description: e.target.value
+		this.props.form.validateFieldsAndScroll((err, values) => {
+			if(!err) {
+				console.log('Receive value of form: ', values);
+			}
 		})
 	}
 
 	render() {
+		const { getFieldDecorator } = this.props.form;
+		const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 6 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 14 },
+      },
+    };
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0,
+        },
+        sm: {
+          span: 14,
+          offset: 6,
+        },
+      },
+    };
+
 		return (
-			<form className="container" onSubmit={(event) => this.handleFormSubmit(event)}>
-				<h5>Create new Book entry</h5>
-				<SingleInput 
-					inputType={'text'}
-					title={'Book Title'}
-					name={'name'}
-					controlFunc={(event) => this.handleNameChange(event)}
-					content={this.state.name}
-					placeholder={"Book title"}
-				/>
-				<SingleInput 
-					inputType={'text'}
-					title={'ISBN'}
-					name={'isbn'}
-					controlFunc={(event) => this.handleISBNChange(event)}
-					content={this.state.isbn}
-					placeholder={"0123456789012"}
-				/>
-				<SingleInput 
-					inputType={'text'}
-					title={'Book Cover'}
-					name={'cover'}
-					controlFunc={(event) => this.handleCoverChange(event)}
-					content={this.state.cover}
-					placeholder={"Cover"}
-				/>
-				<SingleInput 
-					inputType={'text'}
-					title={"Book author"}
-					name={'author'}
-					controlFunc={(event) => this.handleAuthorChange(event)}
-					content={this.state.author}
-					placeholder={"Kien dzzzzz"}
-				/>
-				<SingleInput 
-					inputType={'number'}
-					title={'Book pages'}
-					name={'pages'}
-					controlFunc={(event) => this.handlePagesChange(event)}
-					content={this.state.pages}
-					placeholder={"69"}
-				/>
-				<TextArea 
-					title={'Book description'}
-					rows={5}
-					resize={true}
-					content={this.state.description}
-					name={'description'}
-					controlFunc={(event) => this.handleDescriptionChange(event)}
-					placeholder={'A beautiful Book!'}
-				/>
-				<input
-					type="submit"
-					value="Submit" />
-			</form>
+			<div className="container">
+				<h2 className="form-title">CREATE NEW BOOK</h2>
+				<Form onSubmit={this.handleSubmit}>
+						<FormItem
+							{...formItemLayout}
+							label="Book name"
+							hasFeedback
+						>
+							{getFieldDecorator('name', {
+		            rules: [{
+		              required: true, message: 'Please input the name!',
+		            }],
+		          })(
+		            <Input />
+		          )}
+						</FormItem>
+						<FormItem
+							{...formItemLayout}
+							label="ISBN"
+							hasFeedback
+						>
+							{getFieldDecorator('isbn', {
+								rules: [
+									{required: true, message: 'Please input the isbn!'},
+									{validator: this.checkISBN}
+								], 
+							})(
+								<Input />
+							)}
+						</FormItem>
+						<FormItem
+							{...formItemLayout}
+							label="Book cover"
+							hasFeedback
+						>
+							{getFieldDecorator('cover', {
+								rules: [{required: true, message: 'Please input the book cover link!'}], 
+							})(
+								<Input />
+							)}
+						</FormItem>
+						<FormItem
+							{...formItemLayout}
+							label="Book author"
+							hasFeedback
+						>
+							{getFieldDecorator('author', {
+								rules: [{required: true, message: 'Please input the author!'}], 
+							})(
+								<Input />
+							)}
+						</FormItem>
+						<FormItem
+							{...formItemLayout}
+							label="Book pages"
+							hasFeedback
+						>
+							{getFieldDecorator('pages', {
+								rules: [{required: true, message: 'Please input the page number!'},
+												{validator: this.checkPages}], 
+							})(
+								<InputNumber />
+							)}
+						</FormItem>
+						<FormItem
+							{...formItemLayout}
+							label="Description"
+							hasFeedback
+						>
+							{getFieldDecorator('description', {
+								rules: [], 
+							})(
+								<Input />
+							)}
+						</FormItem>
+						<FormItem
+							{...formItemLayout}
+							label="Publish year"
+							hasFeedback
+						>
+							{getFieldDecorator('public_year', {
+								rules: [{required: true, message: 'Please input the publish year!'},
+												{validator: this.checkYear}], 
+							})(
+								<InputNumber />
+							)}
+						</FormItem>
+						<FormItem
+							{...formItemLayout}
+							label="Status"
+							hasFeedback
+						>
+							{getFieldDecorator('status', {
+								rules: [{required: true, message: 'Please input the book status!'}], 
+							})(
+								<Input />
+							)}
+						</FormItem>
+						<FormItem
+							{...formItemLayout}
+							label="Goodreads rating"
+							hasFeedback
+						>
+							{getFieldDecorator('goodreads_rating', {
+								rules: [{required: true, message: 'Please input the rating!'}], 
+							})(
+								<Input />
+							)}
+						</FormItem>
+						<FormItem
+							{...formItemLayout}
+							label="Goodreads link"
+							hasFeedback
+						>
+							{getFieldDecorator('goodreads_link', {
+								rules: [{required: true, message: 'Please input the link!'}], 
+							})(
+								<Input />
+							)}
+						</FormItem>
+						<FormItem {...tailFormItemLayout}>
+	          <Button type="primary" htmlType="submit" size="large">Create new book</Button>
+	        </FormItem>
+				</Form>
+			</div>
 		)
 	}
 }
+
+const BookForm = Form.create()(NormalForm);
 
 export default BookForm;
