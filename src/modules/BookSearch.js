@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import ClientHTTPRequest from './ClientHTTPRequest';
 import { Row, Col, Icon, Button, Input, AutoComplete, Rate } from 'antd';
 const Option = AutoComplete.Option;
@@ -16,7 +15,7 @@ class BookSearch extends Component {
 			>
 				<Row>
 					<Col xs={6}>
-						<img src={item.cover} />
+						<img src={item.cover} alt="description" />
 					</Col>
 					<Col xs={18}>
 						<p className="global-search-item-title">{item.name}</p>
@@ -30,7 +29,7 @@ class BookSearch extends Component {
 	}
 
 	handleSearch = (value) => {
-		if(value == '') {
+		if(value === '') {
 			this.setState({
 				books: []
 			})
@@ -44,7 +43,6 @@ class BookSearch extends Component {
 	}
 
 	render() {
-		const {bookList} = this.state;
 		return (
 			<div className="global-search-wrapper">
 				<p><strong>SEARCH FOR BOOKS</strong></p>

@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+/*logo*/
+.logo {
+    font-size: 25px;
+}
+
 .ant-layout, .ant-layout-header, .ant-layout-sider {
   background-color: #fff;
 }
@@ -112,4 +117,33 @@
 .list-group-item-text
 {
     margin: 0 0 11px;
+}
+
+/*book detail*/
+.book-detail {
+    padding: 50px 200px;
+    display: flex;
+}
+
+.book-content {
+    padding: 0 50px;
+}
+
+.category-tag {
+    padding: 10px 0;
+    display: inline-block;
+}
+
+.author-section {
+    padding: 10px 0;
+}
+
+.rating-section {
+    padding-bottom: 10px;
+}
+
+.author-img {
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
 }
