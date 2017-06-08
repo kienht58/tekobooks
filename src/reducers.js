@@ -1,26 +1,36 @@
 import { combineReducers } from 'redux'
 
 import {
-	RECEIVE_LIST, RECEIVE_BOOK, RECEIVE_SEARCH_RESULT
+	GET_LIST, GET_BOOK, GET_SEARCH_RESULT
 } from './actions'
 
-function books(state = {
-	books: [],
-	book: [],
-	searchResult: []
-}, action) {
+function books(state = [], action) {
 	switch(action.type) {
-		case RECEIVE_LIST:
+		case GET_LIST:
 			return {
 				...state,
 				books: action.payload.books
 			}
-		case RECEIVE_BOOK:
+		default:
+			return state
+	}
+}
+
+function book(state = [], action) {
+	switch(action.type) {
+		case GET_BOOK:
 			return {
 				...state,
 				book: action.payload.book
 			}
-		case RECEIVE_SEARCH_RESULT:
+		default:
+			return state
+	}
+}
+
+function searchedBooks(state = [], action) {
+	switch(action.type) {
+		case GET_SEARCH_RESULT:
 			return {
 				...state,
 				searchResult: action.payload.searchResult
@@ -31,7 +41,9 @@ function books(state = {
 }
 
 const rootReducer = combineReducers({
-	books
+	books,
+	book,
+	searchedBooks
 })
 
 export default rootReducer
