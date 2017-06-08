@@ -1,7 +1,7 @@
 import React from 'react'
 import '../App.css'
 import Search from './Search'
-import List from './List'
+import BookList from '../containers/BookList'
 import Book from './Book'
 import {Link, Route} from 'react-router-dom'
 import { Layout, Menu, Row } from 'antd'
@@ -28,7 +28,7 @@ const App = () => (
 		  <Layout style={{ padding: '0 50px' }}>
 		    <Route
 		      exact path='/'
-		      component={List}
+		      component={BookList}
 		    />
 		    <Route
 		      path='/book/:id' component={Book}

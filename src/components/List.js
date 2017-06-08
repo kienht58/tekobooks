@@ -4,10 +4,6 @@ import { Layout, Menu, Icon, Row, Rate } from 'antd'
 const { Content, Sider } = Layout
 
 class List extends Component {
-	componentDidMount() {
-		
-	}
-
 	render() {
 		const {books} = this.props
 		console.log(this.props)
@@ -54,7 +50,7 @@ class List extends Component {
 							</div>
 							<div id="products" className="row list-group is-table-row">
 								{books.map((book, idx) => (
-									<div 
+									<div
 										key={idx}
 										className="item col-xs-2 col-lg-2"
 									>
@@ -74,7 +70,7 @@ class List extends Component {
 						</Row>
 			   	) : (
 			    	<div id="loader"></div>
-			   	)}      
+			   	)}
 			  </Content>
 			</Layout>
 		)
