@@ -3,12 +3,12 @@ import { fetchList } from '../actions'
 import List from '../components/List'
 
 const mapStateToProps = (state) => ({
-	books: state.books
+	books: state.bookList.books
 })
 
 const mapDispatchToProps = (dispatch) => {
 	return ({
-		getList: (page, limit) => {dispatch(fetchList(page, limit))}
+		getList: (page, limit) => { dispatch(fetchList(page, limit)) }
 	})
 }
 

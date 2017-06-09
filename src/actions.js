@@ -3,12 +3,13 @@ import fetch from 'isomorphic-fetch'
 export const GET_LIST = 'GET_LIST'
 export const GET_BOOK = 'GET_BOOK'
 export const GET_SEARCH_RESULT = 'GET_SEARCH_RESULT'
+export const CLEAR_SEARCH = 'CLEAR_SEARCH'
 
 export function getList(json) {
 	return {
 		type: GET_LIST,
 		payload: {
-			books: JSON.parse(json)
+			books: JSON.parse(json).books
 		}
 	}
 }
@@ -30,6 +31,13 @@ export function getSearchResult(json) {
 		}
 	}
 }
+
+export function clearSearch() {
+	return {
+		type: CLEAR_SEARCH
+	}
+}
+
 
 export function fetchList(page, limit) {
 	return dispatch => {
