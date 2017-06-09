@@ -1,10 +1,9 @@
 import { combineReducers } from 'redux'
-
 import {
 	GET_LIST, GET_BOOK, GET_SEARCH_RESULT, CLEAR_SEARCH
 } from './actions'
 
-function bookList(state = [], action) {
+const bookList = (state = [], action) => {
 	switch(action.type) {
 		case GET_LIST:
 			return {
@@ -16,7 +15,7 @@ function bookList(state = [], action) {
 	}
 }
 
-function bookDetail(state = [], action) {
+const bookDetail = (state = [], action) => {
 	switch(action.type) {
 		case GET_BOOK:
 			return {
@@ -28,7 +27,7 @@ function bookDetail(state = [], action) {
 	}
 }
 
-function searchedBooks(state = [], action) {
+const searchedBooks = (state = [], action) => {
 	switch(action.type) {
 		case GET_SEARCH_RESULT:
 			return {

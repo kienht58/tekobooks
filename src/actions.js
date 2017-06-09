@@ -38,7 +38,6 @@ export function clearSearch() {
 	}
 }
 
-
 export function fetchList(page, limit) {
 	return dispatch => {
 		return fetch('http://tekobooks.herokuapp.com/api/book?page=' + page + '&limit=' + limit)
