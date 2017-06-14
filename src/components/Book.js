@@ -47,7 +47,7 @@ class BookDetail extends Component {
 						<div className="loader"></div>
 					</Row>
 				)}
-				
+
 			</Layout>
 		)
 	}

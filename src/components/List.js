@@ -13,7 +13,7 @@ class List extends Component {
 		const {books} = this.props
 		return (
 			<Layout>
-				<Sider 
+				<Sider
 					breakpoint="sm"
 					collapsedWidth="0"
 					style={{width: '20%', padding: '57px 0'}}
