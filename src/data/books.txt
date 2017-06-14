@@ -1,0 +1,2 @@
+{"version":"1.2.9","db_type":"leveldb","start_time":"2017-06-14T11:03:34.668Z","db_info":{"doc_count":0,"update_seq":0,"backend_adapter":"MemDOWN","db_name":"inmem","auto_compaction":false,"adapter":"leveldb"}}
+{"seq":0}

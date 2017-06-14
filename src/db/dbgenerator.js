@@ -2,7 +2,7 @@ var fetch = require('isomorphic-fetch')
 var PouchDB = require('pouchdb')
 var repStream = require('pouchdb-replication-stream')
 PouchDB.plugin(repStream.plugin)
-PouchDB.adapter('writableStream', repStream.adaptersr.writableStream)
+PouchDB.adapter('writableStream', repStream.adapters.writableStream)
 var pouchdbLoad = require('pouchdb-load')
 PouchDB.plugin({loadIt: pouchdbLoad.load})
 var memdown = require('memdown')
@@ -13,20 +13,20 @@ var shortRevs = require('short-revs')
 
 var bookDB = new PouchDB('books', {db: memdown})
 
-var NUM_BOOKS = 20;
 
 async function createData() {
-    for(var i = 1; i <= NUM_BOOKS; i++) {
-        var result = await fetch('http://tekobooks.herokuapp.com/api/book/?page=1&limit=10')
-        var json = await result.json();
-        json._id = json.id
-        await db.put(json)
-    }
+    var result = await fetch('http://tekobooks.herokuapp.com/api/book/?page=1&limit=10')
+    var res = await result.json()
+    var json = JSON.parse(res)
+    json.books.forEach(book => {
+    	book._id = '' + book.id
+    	db.put(book)
+    })
 
-    var outStream = fs.createWriteStream('../data/books.txt')
+    var outStream = fs.createWriteStream('src/data/books.txt')
     var stream = shortRevs()
     await db.dump(stream)
-    stream.pipe(out)
+    stream.pipe(outStream)
 }
 
 createData().catch(console.log.bind(console))
