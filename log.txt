@@ -1,0 +1,12 @@
+[Thu, 15 Jun 2017 09:00:30 GMT] [info] [<0.000.0>] pouchdb-server has started on http://127.0.0.1:5984/
+[Thu, 15 Jun 2017 09:00:30 GMT] [info] [<0.000.0>] database files will be saved to /home/antimaster/work/
+[Thu, 15 Jun 2017 09:00:30 GMT] [info] [<0.000.0>] navigate to http://127.0.0.1:5984/_utils for the Fauxton UI.
+[Thu, 15 Jun 2017 09:00:32 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET / 200
+[Thu, 15 Jun 2017 09:00:32 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /books/_changes?timeout=25000&style=all_docs&since=0&limit=100 304
+[Thu, 15 Jun 2017 09:00:32 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /books/_local/DeU.j6pxkHhutsv44A76pQ%3D%3D? 404
+[Thu, 15 Jun 2017 09:00:32 GMT] [info] [<0.000.0>] 127.0.0.1 - - PUT /books/_local/DeU.j6pxkHhutsv44A76pQ%3D%3D 201
+[Thu, 15 Jun 2017 09:01:02 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /books/_changes?timeout=25000&style=all_docs&feed=longpoll&heartbeat=10000&since=0&limit=100 200
+[Thu, 15 Jun 2017 09:01:22 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET / 304
+[Thu, 15 Jun 2017 09:01:22 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /books/_local/DeU.j6pxkHhutsv44A76pQ%3D%3D? 200
+[Thu, 15 Jun 2017 09:01:22 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /books/_changes?timeout=25000&style=all_docs&since=0&limit=100 304
+[Thu, 15 Jun 2017 09:01:22 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /books/_local/DeU.j6pxkHhutsv44A76pQ%3D%3D? 304

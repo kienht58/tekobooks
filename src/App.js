@@ -1,16 +1,36 @@
 import React, { Component } from 'react'
 import {Route} from 'react-router-dom'
+import PouchDB from 'pouchdb'
 
 import './App.css'
 import BookList from './components/BookList'
 import BookDetail from './components/BookDetail'
 
+var db
+
 class App extends Component {
   constructor(props) {
     super(props)
+    db = new PouchDB('books')
+    PouchDB.sync('books', 'http://localhost:5984/books', {
+      live: true,
+      retry: true
+    })
     this.state = {
       books: []
     }
+  }
+
+  componentWillMount() {
+    db.allDocs({include_docs: true}).then(res => {
+      var allBooks =  res.rows.map(row => {
+        return row.doc
+      })
+
+      this.setState({
+        books: allBooks
+      })
+    })
   }
 
   render() { 
@@ -19,25 +39,29 @@ class App extends Component {
         <div className="App-header">
           <h2>TEKOBOOK</h2>
         </div>
-        <p className="App-intro">
+        <div className="App-intro">
           <Route
               exact path='/'
               render={(props) => (
                 <BookList
                   {...props}
-                  data = {{
-                    books: this.state.books,
-                  }}
+                  db = {db}
+                  books = {this.state.books}
                 />
               )}
           />
           <Route
               path='/book/:id'
-              component={BookDetail}
+              render={(props) => (
+                <BookDetail
+                  {...props}
+                  db = {db}
+                  books = {this.state.books}
+                />
+              )}
           />
-        </p>
-        <footer>footer</footer>
-    </div>
+        </div>
+      </div>
     )
   }
 }

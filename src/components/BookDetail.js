@@ -1,26 +1,59 @@
 import React, {Component} from 'react'
 
-import {Grid, Row, Col, Jumbotron} from 'react-bootstrap'
+import {Row, Jumbotron} from 'react-bootstrap'
 
 class BookDetail extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            book: [],
+        }
+    }
+
+    componentWillMount() {
+        const id = this.props.match.params.id
+        const books = this.props.books
+
+        var idx = this.binarySearch(books, id)
+
+        this.setState({
+            book: books[idx]
+        })
+    }
+
+    binarySearch(arr, id) {
+        var left = 0, right = arr.length, mid
+        while(left < right) {
+            mid = (left + right) >>> 1
+            arr[mid]._id < id ? left = mid + 1: right = mid
+        }
+
+        return left
+    }
+
+    componentDidMount() {
+        const db = this.props.db
+        db.changes({
+            live: true,
+            since: 'now',
+            include_docs: true
+        }).on('change', change => {
+            var doc = change.doc
+            if(doc._id === this.state.book._id) {
+                this.setState({
+                    book: doc
+                })
+            }
+        })
+    }
+
     render() {
         return (
             <div>
                 <Jumbotron>
                     <Row>
-                        <Col xs={3} md={2} offset={2}>
-                            <img src="http://123emoji.com/wp-content/uploads/2016/04/10_result1.png" alt="doraemon"/>
-                        </Col>
-                        <Col xs={6} md={8}>
-                            <h2>DORAEMON</h2>
-                            <h3>Fujiko F. Fujio</h3>
-                            <p>Doraemon, Nobita, blablabla</p>
-                            <div>
-                                <p>Borrower: a, b, c</p>
-                            </div>
-                            <button>Preview</button>
-                            <button>borrow</button>
-                        </Col>
+                        <img src="http://123emoji.com/wp-content/uploads/2016/04/10_result1.png" alt="doraemon"/>
+                        <div className="loading">Coming soon</div>
                     </Row>
                 </Jumbotron>
             </div>
