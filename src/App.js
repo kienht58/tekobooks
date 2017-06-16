@@ -21,16 +21,17 @@ class App extends Component {
     }
   }
 
-  componentWillMount() {
-    db.allDocs({include_docs: true}).then(res => {
-      var allBooks =  res.rows.map(row => {
+  async componentDidMount() {
+    var result
+    while(!(result && result.rows && result.rows.length)) {
+      console.log('still loading list')
+      result = await db.allDocs({include_docs: true})
+      await Promise.all(result.rows.map(row => {
         return row.doc
+      })).then(allBooks => {
+        this.setState({books: allBooks})
       })
-
-      this.setState({
-        books: allBooks
-      })
-    })
+    }
   }
 
   render() { 
@@ -39,13 +40,13 @@ class App extends Component {
         <div className="App-header">
           <h2>TEKOBOOK</h2>
         </div>
-        <div className="App-intro">
+        <div className="App-content">
+          <button className="btn btn-success">TANH</button>
           <Route
               exact path='/'
               render={(props) => (
                 <BookList
                   {...props}
-                  db = {db}
                   books = {this.state.books}
                 />
               )}

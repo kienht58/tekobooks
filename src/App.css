@@ -2,22 +2,14 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
 .App-header {
   background-color: #222;
-  height: 80px;
+  height: 50px;
   padding: 20px;
   color: white;
 }
 
 .App-intro {
-  position: absolute;
-  top: 30%;
-  left: 35%;
   font-size: large;
 }
 
@@ -27,6 +19,10 @@
 }
 
 /*loading*/
+.no-content {
+  position: relative;
+}
+
 .loading {
   font-size: 30px;
 }
