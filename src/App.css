@@ -1,50 +1,206 @@
 .App {
   text-align: center;
 }
-
-.App-header {
-  background-color: #222;
-  height: 50px;
-  padding: 20px;
-  color: white;
+/*logo*/
+.logo {
+    font-size: 25px;
 }
 
-.App-intro {
-  font-size: large;
+.ant-layout, .ant-layout-header, .ant-layout-sider {
+  background-color: #fff;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.ant-layout-sider {
+  max-width: 20%;
+  min-width: 15%;
 }
 
-/*loading*/
-.no-content {
+/*search*/
+.global-search-wrapper {
+    min-width: 500px;
+    max-width: 600px;
+    padding-right: 50px;
+    text-align: center;
+    margin: auto;
+}
+
+.global-search {
+    width: 100%;
+}
+
+.global-search.ant-select-auto-complete .ant-select-selection--single {
+    margin-right: -46px;
+}
+
+.global-search.ant-select-auto-complete .ant-input-affix-wrapper .ant-input:not(:last-child) {
+    padding-right: 62px;
+}
+
+.global-search.ant-select-auto-complete .ant-input-affix-wrapper .ant-input-suffix {
+    right: 0;
+}
+
+.global-search.ant-select-auto-complete .ant-input-affix-wrapper .ant-input-suffix button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.global-search-item-title, .global-search-item-author {
+    white-space: normal;
+}
+
+.global-search-item-title {
+    font-size: 13px;
+}
+
+/*list*/
+.list-content {
+    padding-left: 50px;
+}
+
+.glyphicon { margin-right:5px; }
+.thumbnail
+{
+    margin-bottom: 20px;
+    padding: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+
+.item {
+    text-align: center;
+}
+
+.filter-choice {
+    border: none;
+    background: #fff;
+    text-align: right;
+}
+
+.item.list-group-item
+{
+    float: none;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+
+.item.list-group-item .thumbnail
+{
+    margin-bottom: 0px;
+    border: none;
+}
+
+.item.list-group-item .thumbnail:before, .item.list-group-item .thumnail:after {
+    display: table;
+    content: " ";
+}
+
+.item.list-group-item .thumnail:after {
+    clear: both;
+}
+
+.item.list-group-item .caption
+{
+    padding: 9px 9px 0px 9px;
+    clear: both;
+    float: right;
+}
+
+.item.list-group-item:before, .item.list-group-item:after
+{
+    display: table;
+    content: " ";
+}
+
+.item.list-group-item:after
+{
+    clear: both;
+}
+.list-group-item-text
+{
+    margin: 0 0 11px;
+}
+
+/*book detail*/
+.book-detail {
+    padding: 50px 200px;
+    display: flex;
+}
+
+.book-content {
+    padding: 0 50px;
+}
+
+.category-tag {
+    padding: 10px 0;
+    display: inline-block;
+}
+
+.author-section {
+    padding: 10px 0;
+}
+
+.rating-section {
+    padding-bottom: 10px;
+}
+
+.author-img {
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+}
+
+/*form*/
+.form-title {
+    padding: 30px 0;
+    text-align: center;
+}
+
+/*loader*/
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
   position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
 }
 
-.loading {
-  font-size: 30px;
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 } 
+  to { bottom:0px; opacity:1 }
 }
 
-.loading:after {
-  overflow: hidden;
-  display: inline-block;
-  vertical-align: bottom;
-  -webkit-animation: ellipsis steps(4,end) 2000ms infinite;      
-  animation: ellipsis steps(4,end) 2000ms infinite;
-  content: "\2026"; 
-  width: 0px;
-}
-
-@keyframes ellipsis {
-  to {
-    width: 1.25em;    
-  }
-}
-
-@-webkit-keyframes ellipsis {
-  to {
-    width: 1.25em;    
-  }
+@keyframes animatebottom { 
+  from{ bottom:-100px; opacity:0 } 
+  to{ bottom:0; opacity:1 }
 }
