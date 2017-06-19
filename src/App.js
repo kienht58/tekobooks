@@ -1,67 +1,127 @@
 import React, { Component } from 'react'
-import {Route} from 'react-router-dom'
+import {Route, Link} from 'react-router-dom'
 import PouchDB from 'pouchdb'
 
 import './App.css'
 import BookList from './components/BookList'
 import BookDetail from './components/BookDetail'
+import BookSearch from './components/BookSearch'
+import Login from './components/Login'
+import Register from './components/Register'
 
-var db
+var db = new PouchDB('books')
 
 class App extends Component {
   constructor(props) {
     super(props)
-    db = new PouchDB('books')
-    PouchDB.sync('books', 'http://localhost:5984/books', {
-      live: true,
-      retry: true
-    })
     this.state = {
-      books: []
+        books: []
     }
+  }
+
+  componentWillMount() {
+      db.sync('http://localhost:5984/books', {
+        live: true,
+        retry: true
+      }).on('error', function(info) {
+        console.log('error:', info)
+      })
   }
 
   async componentDidMount() {
-    var result
-    while(!(result && result.rows && result.rows.length)) {
-      console.log('still loading list')
-      result = await db.allDocs({include_docs: true})
-      await Promise.all(result.rows.map(row => {
-        return row.doc
-      })).then(allBooks => {
-        this.setState({books: allBooks})
-      })
-    }
+      //first time load or when change happen
+      var that = this
+      db.changes({
+          live: true,
+          limit: 50,
+          since: 'now',
+          include_docs: true
+      }).on('change', function(change) {
+         var bookList = that.state.books
+         bookList.push(change.doc)
+         that.setState({
+             books: bookList
+         })
+      }).on('error', console.log.bind(console))
+
+      //subsequences
+      try {
+          var result = await db.allDocs({
+              include_docs: true
+          })
+          var allBooks = result.rows.map(function(row) {
+              return row.doc
+          })
+          this.setState({
+              books: allBooks
+          })
+          console.log('Books loaded and saved during componentDidMount phase of App component.')
+      } catch (error) {
+          console.log('error', error)
+      }
   }
 
-  render() { 
+  render() {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>TEKOBOOK</h2>
+          <nav className="navbar navbar-default navbar-fixed-top">
+            <div className="container">
+              <div className="navbar-header">
+                <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                  <p style={{color: '#000'}}>Cài đặt</p>
+                </button>
+                <Link to='/' className="navbar-brand" style={{color: 'blue'}}>Logo</Link>
+              </div>
+              <div className="collapse navbar-collapse" id="myNavbar">
+                <ul className="nav navbar-nav navbar-right">
+                  <li><a href="/login" style={{color: '#009dff'}}>Đăng nhập</a></li>
+                  <li><a href="/register" style={{color: '#009dff'}}>Đăng kí</a></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
         </div>
-        <div className="App-content">
-          <button className="btn btn-success">TANH</button>
+        <div className="jumbotron text-center">
+          <h1>TEKOBOOK</h1>
+          <p>Tìm kiếm sách</p>
+          <BookSearch db={db}/>
+        </div>
+        <div id="content" className="container">
           <Route
-              exact path='/'
-              render={(props) => (
-                <BookList
-                  {...props}
-                  books = {this.state.books}
-                />
-              )}
+            exact path='/'
+            render={(props) => (
+              <BookList
+                {...props}
+                db = {db}
+                books = {this.state.books}
+              />
+            )}
           />
           <Route
-              path='/book/:id'
-              render={(props) => (
-                <BookDetail
-                  {...props}
-                  db = {db}
-                  books = {this.state.books}
-                />
-              )}
+            path='/book/:id'
+            render={(props) => (
+              <BookDetail
+                {...props}
+                db = {db}
+                books = {this.state.books}
+              />
+            )}
+          />
+          <Route
+             exact path='/login'
+             component={Login}
+          />
+          <Route
+             exact path='/register'
+             component={Register}
           />
         </div>
+      <footer>
+          <div className="footer-container">
+              TEKOBOOK 2017
+          </div>
+      </footer>
       </div>
     )
   }
